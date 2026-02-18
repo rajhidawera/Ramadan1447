@@ -1,8 +1,7 @@
-
 import { GoogleGenAI } from "@google/genai";
 import { MosqueRecord } from "../types";
 
-// نستخدم process.env.API_KEY مباشرة كما هو محقون في البيئة
+// Using process.env.API_KEY directly as configured in the environment
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const analyzeFieldData = async (records: MosqueRecord[]) => {
@@ -26,16 +25,18 @@ export const analyzeFieldData = async (records: MosqueRecord[]) => {
   `;
 
   try {
+    // Simplified contents to use prompt string directly as per SDK guidelines
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
-      contents: [{ role: 'user', parts: [{ text: prompt }] }],
+      contents: prompt,
       config: {
         systemInstruction: "أنت مساعد إداري ذكي لمؤسسة عبدالله الراجحي الخيرية. كن دقيقاً، مهنياً، ومختصراً في نقاط واضحة.",
         temperature: 0.7,
       },
     });
 
-    return response.text;
+    // Accessing .text property directly (not a method) and providing a fallback
+    return response.text ?? "";
   } catch (error) {
     console.error("AI Error:", error);
     return "حدث خطأ أثناء محاولة تحليل البيانات ذكياً. يرجى مراجعة التقارير يدوياً.";

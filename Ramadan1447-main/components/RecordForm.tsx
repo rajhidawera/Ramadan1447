@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
-import { MosqueRecord, MosqueInfo, DayInfo } from '../types';
-import { INITIAL_RECORD } from '../constants';
-import InputGroup from './InputGroup';
+import { MosqueRecord, MosqueInfo, DayInfo } from '../types.ts';
+import { INITIAL_RECORD } from '../constants.ts';
+import InputGroup from './InputGroup.tsx';
 
 const getTodayHijri = () => {
   try {
@@ -84,7 +84,6 @@ const RecordForm: React.FC<any> = ({ initialData, mosques, days, isAdmin, onSave
 
   const isFarm = formData["نوع الموقع"] === "مزرعة";
 
-  // قائمة مسميات الأيام التي تظهر فيها بيانات الاعتكاف والسحور (العشر الأواخر)
   const lastTenDaysLabels = [
     "اليوم العشرون", "اليوم الحادي والعشرون", "اليوم الثاني والعشرون",
     "اليوم الثالث والعشرون", "اليوم الرابع والعشرون", "اليوم الخامس والعشرون",
@@ -92,7 +91,6 @@ const RecordForm: React.FC<any> = ({ initialData, mosques, days, isAdmin, onSave
     "اليوم التاسع والعشرون", "اليوم الثلاثون"
   ];
   
-  // يظهر القسم إذا كان اليوم المختار من العشر الأواخر أو إذا كان المستخدم مسؤولاً
   const showItikafSection = isAdmin || lastTenDaysLabels.some(label => formData.label_day?.includes(label));
 
   return (
@@ -122,7 +120,6 @@ const RecordForm: React.FC<any> = ({ initialData, mosques, days, isAdmin, onSave
 
       {(isPasswordCorrect || isAdmin) && (
         <div className="space-y-8 animate-in fade-in">
-          {/* قسم الوقت */}
           <InputGroup title="الوقت والموقع" icon="📅">
             <div className="flex flex-col gap-2">
                <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest flex items-center gap-1">
@@ -154,7 +151,6 @@ const RecordForm: React.FC<any> = ({ initialData, mosques, days, isAdmin, onSave
             </div>
           </InputGroup>
 
-          {/* قسم المصلين والإفطار */}
           <InputGroup title="إحصائيات المصلين والإفطار" icon="🕌">
             {!isFarm && (
               <>
@@ -186,7 +182,6 @@ const RecordForm: React.FC<any> = ({ initialData, mosques, days, isAdmin, onSave
             </div>
           </InputGroup>
 
-          {/* قسم الحلقات القرآنية */}
           <InputGroup title="الحلقات القرآنية" icon="📖">
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">طلاب الحلقات</label>
@@ -206,7 +201,6 @@ const RecordForm: React.FC<any> = ({ initialData, mosques, days, isAdmin, onSave
             </div>
           </InputGroup>
 
-          {/* قسم البرامج الدعوية والمجتمعية */}
           <InputGroup title="البرامج الدعوية" icon="📢">
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">كلمات رجالية</label>
@@ -230,7 +224,6 @@ const RecordForm: React.FC<any> = ({ initialData, mosques, days, isAdmin, onSave
             </div>
           </InputGroup>
 
-          {/* قسم القوى البشرية */}
           <InputGroup title="القوى البشرية" icon="👥">
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">عدد المشرفين</label>
@@ -242,7 +235,6 @@ const RecordForm: React.FC<any> = ({ initialData, mosques, days, isAdmin, onSave
             </div>
           </InputGroup>
 
-          {/* قسم البرنامج المجتمعي */}
           <InputGroup title="البرنامج المجتمعي" icon="🤝">
             <div className="flex flex-col gap-2 lg:col-span-2">
               <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">اسم البرنامج</label>
@@ -258,7 +250,6 @@ const RecordForm: React.FC<any> = ({ initialData, mosques, days, isAdmin, onSave
             </div>
           </InputGroup>
 
-          {/* قسم الاعتكاف والسحور - يظهر فقط في العشر الأواخر */}
           {showItikafSection && (
             <InputGroup title="الاعتكاف والسحور" icon="🌙">
               <div className="flex flex-col gap-2">
@@ -280,9 +271,8 @@ const RecordForm: React.FC<any> = ({ initialData, mosques, days, isAdmin, onSave
             </InputGroup>
           )}
 
-          {/* قسم الاعتماد للمسؤول */}
           {isAdmin && (
-            <div className="bg-[#003366] p-10 rounded-[3rem] shadow-2xl text-white animate-in slide-in-from-bottom border-b-8 border-[#C5A059]">
+            <div className="bg-[#003366] p-10 rounded-[3rem] shadow-2xl text-white animate-in border-b-8 border-[#C5A059]">
               <h3 className="text-xl font-black mb-6 flex items-center gap-3">
                 <span className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center">🔐</span>
                 اعتماد التقرير الميداني
@@ -303,17 +293,11 @@ const RecordForm: React.FC<any> = ({ initialData, mosques, days, isAdmin, onSave
                     <option value="يعتمد" className="text-slate-800">يعتمد ✅</option>
                     <option value="مرفوض" className="text-slate-800">مرفوض ❌</option>
                   </select>
-                  <div className="absolute left-6 top-1/2 -translate-y-1/2 pointer-events-none opacity-50">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </div>
                 </div>
               </div>
             </div>
           )}
 
-          {/* ملاحظات نهائية */}
           <div className="bg-white p-8 rounded-[3rem] shadow-xl border border-slate-100">
              <div className="flex items-center gap-4 mb-6">
                 <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center text-xl">📝</div>
@@ -322,12 +306,11 @@ const RecordForm: React.FC<any> = ({ initialData, mosques, days, isAdmin, onSave
              <textarea name="ملاحظات" value={formData.ملاحظات} onChange={handleChange} rows={4} className="w-full px-8 py-6 bg-slate-50 rounded-[2rem] outline-none focus:bg-white border-2 border-transparent focus:border-[#0054A6] font-bold text-[#003366] text-lg shadow-inner" placeholder="هل هناك أي تحديات أو قصص نجاح تود مشاركتها؟" />
           </div>
 
-          {/* زر الحفظ العائم */}
           <div className="fixed bottom-10 left-0 right-0 px-4 z-[50] pointer-events-none">
             <button 
               type="button"
               onClick={handleFormSubmit} 
-              className="pointer-events-auto w-full max-w-lg mx-auto bg-[#0054A6] text-white py-6 rounded-[2.5rem] font-black text-xl shadow-[0_20px_50px_rgba(0,84,166,0.3)] flex items-center justify-center gap-4 active:scale-95 transition-all border-b-4 border-[#003366] hover:bg-[#003366]"
+              className="pointer-events-auto w-full max-w-lg mx-auto bg-[#0054A6] text-white py-6 rounded-[2.5rem] font-black text-xl shadow-2xl flex items-center justify-center gap-4 active:scale-95 transition-all border-b-4 border-[#003366]"
             >
                {isAdmin ? '💾 حفظ التعديلات والاعتماد النهائي' : '📤 إرسال التقرير للمراجعة'}
             </button>

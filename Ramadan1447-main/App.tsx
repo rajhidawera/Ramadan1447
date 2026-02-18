@@ -1,12 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
-import { mosqueApi } from './services/api';
-import { MosqueRecord, MaintenanceRecord, PhotoRecord, MosqueInfo, DayInfo } from './types';
-import RecordList from './components/RecordList';
-import RecordForm from './components/RecordForm';
-import MaintenanceForm from './components/MaintenanceForm';
-import MaintenanceDashboard from './components/MaintenanceDashboard';
-import Dashboard from './components/Dashboard';
+import { mosqueApi } from './services/api.ts';
+import { MosqueRecord, MaintenanceRecord, PhotoRecord, MosqueInfo, DayInfo } from './types.ts';
+import RecordList from './components/RecordList.tsx';
+import RecordForm from './components/RecordForm.tsx';
+import MaintenanceForm from './components/MaintenanceForm.tsx';
+import MaintenanceDashboard from './components/MaintenanceDashboard.tsx';
+import Dashboard from './components/Dashboard.tsx';
 
 type ViewState = 'dashboard' | 'list' | 'form' | 'maintenance' | 'maintenance_list';
 
@@ -65,21 +65,13 @@ const App: React.FC = () => {
   const handleSave = async (data: any) => {
     setLoading(true);
     try {
-      // نستخدم البيانات كما هي إذا كان المسؤول هو من يحفظ (لأنها تتضمن الاعتماد المختار)
-      // أما المستخدم العادي فتكون الحالة دوماً "قيد المراجعة"
       const payload = isAdmin ? data : { ...data, الاعتماد: 'قيد المراجعة' };
-      
       const result = await mosqueApi.save(payload);
-      
       if (result.success) {
         showNotification('تم المزامنة بنجاح', 'success');
         setView('dashboard');
         setEditingRecord(null);
-        
-        // تأخير بسيط لضمان تحديث جداول جوجل قبل الجلب من جديد
-        setTimeout(async () => {
-          await fetchData();
-        }, 1500);
+        setTimeout(async () => { await fetchData(); }, 1500);
       } else {
         throw new Error('API return success: false');
       }
@@ -94,11 +86,10 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] pb-24 font-['Tajawal'] text-right" dir="rtl">
-      {/* نافذة دخول المسؤول */}
       {showAdminModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-[#003366]/60 backdrop-blur-sm" onClick={() => setShowAdminModal(false)}></div>
-          <div className="relative bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl p-10 animate-in slide-in-from-top">
+          <div className="relative bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl p-10 animate-in">
             <div className="text-center space-y-4 mb-8">
               <div className="w-16 h-16 bg-[#C5A059]/10 text-[#C5A059] rounded-2xl flex items-center justify-center text-3xl mx-auto">🔐</div>
               <h2 className="text-2xl font-black text-[#003366]">دخول المسؤول</h2>
@@ -132,7 +123,6 @@ const App: React.FC = () => {
               <p className="text-[10px] text-[#C5A059] uppercase tracking-[0.2em] font-black mt-1">مؤسسة عبدالله بن عبدالعزيز الراجحي الخيرية</p>
             </div>
           </div>
-          
           <nav className="flex items-center bg-white/10 rounded-2xl p-1 gap-1 border border-white/5">
             <button onClick={() => setView('dashboard')} className={`px-4 sm:px-6 py-2 rounded-xl text-sm font-bold transition-all ${view === 'dashboard' ? 'bg-[#0054A6] text-white shadow-lg' : 'text-white/60 hover:text-white hover:bg-white/5'}`}>الرئيسية</button>
             <button onClick={() => setView('list')} className={`px-4 sm:px-6 py-2 rounded-xl text-sm font-bold transition-all ${view === 'list' ? 'bg-[#0054A6] text-white shadow-lg' : 'text-white/60 hover:text-white hover:bg-white/5'}`}>السجلات</button>
@@ -146,7 +136,7 @@ const App: React.FC = () => {
       </header>
 
       {notification && (
-        <div className={`fixed top-28 left-1/2 transform -translate-x-1/2 z-[60] px-8 py-4 rounded-3xl shadow-2xl flex items-center gap-3 animate-in slide-in-from-top ${notification.type === 'success' ? 'bg-[#0054A6] text-white' : 'bg-red-600 text-white'}`}>
+        <div className={`fixed top-28 left-1/2 transform -translate-x-1/2 z-[60] px-8 py-4 rounded-3xl shadow-2xl flex items-center gap-3 animate-in ${notification.type === 'success' ? 'bg-[#0054A6] text-white' : 'bg-red-600 text-white'}`}>
           <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
             {notification.type === 'success' ? '✓' : '!'}
           </div>
@@ -155,15 +145,15 @@ const App: React.FC = () => {
       )}
 
       {loading && (
-        <div className="fixed inset-0 bg-white/60 backdrop-blur-xl z-[90] flex flex-col items-center justify-center">
-          <div className="relative bg-white p-6 rounded-[2rem] shadow-2xl border border-slate-100">
+        <div className="fixed inset-0 bg-white/60 backdrop-blur-xl z-[90] flex flex-col items-center justify-center text-center">
+          <div className="relative bg-white p-6 rounded-[2rem] shadow-2xl border border-slate-100 mb-4">
              <div className="w-16 h-16 border-4 border-[#C5A059] border-t-[#0054A6] rounded-full animate-spin"></div>
           </div>
-          <p className="text-[#003366] text-xl font-black mt-4">جاري المعالجة...</p>
+          <p className="text-[#003366] text-xl font-black">جاري المعالجة...</p>
         </div>
       )}
 
-      <main className="max-w-7xl mx-auto px-4 py-8 animate-in fade-in">
+      <main className="max-w-7xl mx-auto px-4 py-8 animate-in">
         {view === 'dashboard' && (
           <Dashboard 
             records={approvedRecords} 

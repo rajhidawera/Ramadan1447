@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
-import { MosqueRecord, MosqueInfo, DayInfo, PhotoRecord } from '../types';
-import ImageSlider from './ImageSlider';
-import { analyzeFieldData } from '../services/ai';
+import { MosqueRecord, MosqueInfo, DayInfo, PhotoRecord } from '../types.ts';
+import ImageSlider from './ImageSlider.tsx';
+import { analyzeFieldData } from '../services/ai.ts';
 
 interface DashboardProps {
   records: MosqueRecord[];

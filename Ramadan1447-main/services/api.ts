@@ -1,6 +1,6 @@
 
-import { API_ENDPOINT } from '../constants';
-import { ApiResponse } from '../types';
+import { API_ENDPOINT } from '../constants.ts';
+import { ApiResponse } from '../types.ts';
 
 export const mosqueApi = {
   async getAll(): Promise<ApiResponse> {
@@ -16,7 +16,6 @@ export const mosqueApi = {
 
   async save(data: any): Promise<{ success: boolean, record_id?: string }> {
     try {
-      // إرسال البيانات بتنسيق JSON مع دعم CORS
       const response = await fetch(API_ENDPOINT, {
         method: 'POST',
         headers: {
@@ -25,8 +24,6 @@ export const mosqueApi = {
         body: JSON.stringify(data),
       });
       
-      // بما أن الـ Apps Script قد يواجه مشاكل CORS في الـ POST، 
-      // سنحاول قراءة الاستجابة في حال كانت متاحة
       try {
         const result = await response.json();
         return result;
