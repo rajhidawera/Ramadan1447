@@ -1,5 +1,5 @@
 {
-  "name": "As-Sukun (The Stillness)",
-  "description": "A minimalist Zen application designed for deep focus and meditation, allowing users to embrace the art of 'doing nothing' through guided breathing, ambient visuals, and AI-generated koans.",
+  "name": "نظام إدارة أنشطة المساجد - مؤسسة عبدالله الراجحي الخيرية",
+  "description": "واجهة متكاملة لإدارة وإدخال بيانات الأنشطة الرمضانية لمساجد مؤسسة عبدالله بن عبدالعزيز الراجحي الخيرية لعام 1447هـ.",
   "requestFramePermissions": []
 }
