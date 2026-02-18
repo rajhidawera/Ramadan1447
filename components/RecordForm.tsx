@@ -45,10 +45,10 @@ const RecordForm: React.FC<any> = ({ initialData, mosques, days, isAdmin, onSave
   }, [enteredPassword, selectedMosqueCode, mosques, isAdmin]);
 
   const handleChange = (e: any) => {
-    const { name, value, type } = e.target;
+    const { name, value, inputMode } = e.target;
     setFormData(prev => ({ 
         ...prev, 
-        [name]: type === 'number' ? convertAndCleanNumbers(value) : value 
+        [name]: inputMode === 'numeric' ? convertAndCleanNumbers(value) : value 
     }));
     if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
   };
@@ -156,82 +156,82 @@ const RecordForm: React.FC<any> = ({ initialData, mosques, days, isAdmin, onSave
               <>
                 <div className="flex flex-col gap-2">
                   <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">المصلين (رجال)</label>
-                  <input type="number" name="عدد_المصلين_رجال" value={formData.عدد_المصلين_رجال} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
+                  <input type="text" inputMode="numeric" name="عدد_المصلين_رجال" value={formData.عدد_المصلين_رجال} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
                 </div>
                 <div className="flex flex-col gap-2">
                   <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">المصلين (نساء)</label>
-                  <input type="number" name="عدد_المصلين_نساء" value={formData.عدد_المصلين_نساء} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
+                  <input type="text" inputMode="numeric" name="عدد_المصلين_نساء" value={formData.عدد_المصلين_نساء} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
                 </div>
               </>
             )}
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">وجبات إفطار (مدعومة)</label>
-              <input type="number" name="عدد_وجبات_افطار_المدعومة" value={formData.عدد_وجبات_افطار_المدعومة} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
+              <input type="text" inputMode="numeric" name="عدد_وجبات_افطار_المدعومة" value={formData.عدد_وجبات_افطار_المدعومة} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">وجبات إفطار (فعلي)</label>
-              <input type="number" name="عدد_وجبات_الافطار_فعلي" value={formData.عدد_وجبات_الافطار_فعلي} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
+              <input type="text" inputMode="numeric" name="عدد_وجبات_الافطار_فعلي" value={formData.عدد_وجبات_الافطار_فعلي} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">كراتين ماء</label>
-              <input type="number" name="عدد_كراتين_ماء" value={formData.عدد_كراتين_ماء} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
+              <input type="text" inputMode="numeric" name="عدد_كراتين_ماء" value={formData.عدد_كراتين_ماء} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">مستفيدي الضيافة</label>
-              <input type="number" name="عدد_مستفيدي_الضيافة" value={formData.عدد_مستفيدي_الضيافة} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
+              <input type="text" inputMode="numeric" name="عدد_مستفيدي_الضيافة" value={formData.عدد_مستفيدي_الضيافة} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
             </div>
           </InputGroup>
 
           <InputGroup title="الحلقات القرآنية" icon="📖">
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">طلاب الحلقات</label>
-              <input type="number" name="عدد_طلاب_الحلقات" value={formData.عدد_طلاب_الحلقات} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
+              <input type="text" inputMode="numeric" name="عدد_طلاب_الحلقات" value={formData.عدد_طلاب_الحلقات} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">الأوجه المنجزة (طلاب)</label>
-              <input type="number" name="عدد_الاوجه_طلاب" value={formData.عدد_الاوجه_طلاب} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
+              <input type="text" inputMode="numeric" name="عدد_الاوجه_طلاب" value={formData.عدد_الاوجه_طلاب} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">طالبات الحلقات</label>
-              <input type="number" name="عدد_طالبات_الحلقات" value={formData.عدد_طالبات_الحلقات} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
+              <input type="text" inputMode="numeric" name="عدد_طالبات_الحلقات" value={formData.عدد_طالبات_الحلقات} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">الأوجه المنجزة (طالبات)</label>
-              <input type="number" name="عدد_الاوجه_طالبات" value={formData.عدد_الاوجه_طالبات} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
+              <input type="text" inputMode="numeric" name="عدد_الاوجه_طالبات" value={formData.عدد_الاوجه_طالبات} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
             </div>
           </InputGroup>
 
           <InputGroup title="البرامج الدعوية" icon="📢">
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">كلمات رجالية</label>
-              <input type="number" name="عدد_الكلمات_الرجالية" value={formData.عدد_الكلمات_الرجالية} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
+              <input type="text" inputMode="numeric" name="عدد_الكلمات_الرجالية" value={formData.عدد_الكلمات_الرجالية} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">كلمات نسائية</label>
-              <input type="number" name="عدد_الكلمات_النسائية" value={formData.عدد_الكلمات_النسائية} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
+              <input type="text" inputMode="numeric" name="عدد_الكلمات_النسائية" value={formData.عدد_الكلمات_النسائية} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">مستفيدي الكلمات</label>
-              <input type="number" name="عدد_مستفيدي_الكلمات" value={formData.عدد_مستفيدي_الكلمات} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
+              <input type="text" inputMode="numeric" name="عدد_مستفيدي_الكلمات" value={formData.عدد_مستفيدي_الكلمات} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">عدد المسابقات</label>
-              <input type="number" name="عدد_المسابقات" value={formData.عدد_المسابقات} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
+              <input type="text" inputMode="numeric" name="عدد_المسابقات" value={formData.عدد_المسابقات} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">أطفال الحضانة</label>
-              <input type="number" name="عدد_اطفال_الحضانة" value={formData.عدد_اطفال_الحضانة} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
+              <input type="text" inputMode="numeric" name="عدد_اطفال_الحضانة" value={formData.عدد_اطفال_الحضانة} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
             </div>
           </InputGroup>
 
           <InputGroup title="القوى البشرية" icon="👥">
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">عدد المشرفين</label>
-              <input type="number" name="عدد المشرفين" value={formData["عدد المشرفين"]} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
+              <input type="text" inputMode="numeric" name="عدد المشرفين" value={formData["عدد المشرفين"]} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">عدد المتطوعين</label>
-              <input type="number" name="عدد_المتطوعين" value={formData.عدد_المتطوعين} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
+              <input type="text" inputMode="numeric" name="عدد_المتطوعين" value={formData.عدد_المتطوعين} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
             </div>
           </InputGroup>
 
@@ -242,7 +242,7 @@ const RecordForm: React.FC<any> = ({ initialData, mosques, days, isAdmin, onSave
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">عدد المستفيدين</label>
-              <input type="number" name="عدد_المستفيدين" value={formData.عدد_المستفيدين} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
+              <input type="text" inputMode="numeric" name="عدد_المستفيدين" value={formData.عدد_المستفيدين} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
             </div>
             <div className="flex flex-col gap-2 lg:col-span-3">
               <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">وصف مختصر للبرنامج</label>
@@ -254,19 +254,19 @@ const RecordForm: React.FC<any> = ({ initialData, mosques, days, isAdmin, onSave
             <InputGroup title="الاعتكاف والسحور" icon="🌙">
               <div className="flex flex-col gap-2">
                 <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">المعتكفين (رجال)</label>
-                <input type="number" name="عدد_المعتكفين_رجال" value={formData.عدد_المعتكفين_رجال} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
+                <input type="text" inputMode="numeric" name="عدد_المعتكفين_رجال" value={formData.عدد_المعتكفين_رجال} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">وجبات سحور (رجال)</label>
-                <input type="number" name="عدد_وجبات_السحور_رجال" value={formData.عدد_وجبات_السحور_رجال} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
+                <input type="text" inputMode="numeric" name="عدد_وجبات_السحور_رجال" value={formData.عدد_وجبات_السحور_رجال} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">المعتكفين (نساء)</label>
-                <input type="number" name="عدد_المعتكفين_نساء" value={formData.عدد_المعتكفين_نساء} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
+                <input type="text" inputMode="numeric" name="عدد_المعتكفين_نساء" value={formData.عدد_المعتكفين_نساء} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-[10px] font-black text-slate-400 mr-2 uppercase tracking-widest">وجبات سحور (نساء)</label>
-                <input type="number" name="عدد_وجبات_السحور_نساء" value={formData.عدد_وجبات_السحور_نساء} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
+                <input type="text" inputMode="numeric" name="عدد_وجبات_السحور_نساء" value={formData.عدد_وجبات_السحور_نساء} onChange={handleChange} placeholder="0" className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-[#0054A6]" />
               </div>
             </InputGroup>
           )}

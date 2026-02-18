@@ -10,7 +10,7 @@ const convertAndCleanNumbers = (val: string) => {
   return converted.replace(/[^\d]/g, '');
 };
 
-const MaintenanceForm: React.FC<any> = ({ initialData, mosques, days, isAdmin, onSave }) => {
+const MaintenanceForm: React.FC<any> = ({ initialData, mosques, days, isAdmin, onSave, onCancel }) => {
   const [formData, setFormData] = useState<MaintenanceRecord>(INITIAL_MAINTENANCE_RECORD);
   const [enteredPassword, setEnteredPassword] = useState('');
   const [isPasswordCorrect, setIsPasswordCorrect] = useState(false);
@@ -34,10 +34,10 @@ const MaintenanceForm: React.FC<any> = ({ initialData, mosques, days, isAdmin, o
   }, [enteredPassword, selectedMosqueCode, mosques, isAdmin]);
 
   const handleChange = (e: any) => {
-    const { name, value, type } = e.target;
+    const { name, value, inputMode } = e.target;
     setFormData(prev => ({ 
         ...prev, 
-        [name]: type === 'number' ? convertAndCleanNumbers(value) : value 
+        [name]: inputMode === 'numeric' ? convertAndCleanNumbers(value) : value 
     }));
     if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
   };
@@ -110,15 +110,15 @@ const MaintenanceForm: React.FC<any> = ({ initialData, mosques, days, isAdmin, o
           <InputGroup title="إحصائيات الصيانة والنظافة" icon="📊">
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">أعمال النظافة</label>
-              <input type="number" name="أعمال_النظافة_عدد" value={formData.أعمال_النظافة_عدد} onChange={handleChange} className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold" placeholder="أدخل العدد" />
+              <input type="text" inputMode="numeric" name="أعمال_النظافة_عدد" value={formData.أعمال_النظافة_عدد} onChange={handleChange} className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold" placeholder="أدخل العدد" />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">أعمال الصيانة</label>
-              <input type="number" name="أعمال_الصيانة_عدد" value={formData.أعمال_الصيانة_عدد} onChange={handleChange} className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold" placeholder="أدخل العدد" />
+              <input type="text" inputMode="numeric" name="أعمال_الصيانة_عدد" value={formData.أعمال_الصيانة_عدد} onChange={handleChange} className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold" placeholder="أدخل العدد" />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">كراتين الماء</label>
-              <input type="number" name="عدد_كراتين_الماء_الواقعي" value={formData.عدد_كراتين_الماء_الواقعي} onChange={handleChange} className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold" placeholder="أدخل العدد" />
+              <input type="text" inputMode="numeric" name="عدد_كراتين_الماء_الواقعي" value={formData.عدد_كراتين_الماء_الواقعي} onChange={handleChange} className="px-6 py-4 border-2 border-slate-100 rounded-2xl font-bold" placeholder="أدخل العدد" />
             </div>
           </InputGroup>
 
@@ -154,14 +154,23 @@ const MaintenanceForm: React.FC<any> = ({ initialData, mosques, days, isAdmin, o
             <textarea name="أعمال_الصيانة_سرد" value={formData.أعمال_الصيانة_سرد} onChange={handleChange} rows={3} className="w-full px-6 py-4 bg-white border-2 border-slate-100 rounded-3xl font-bold" placeholder="تفاصيل أعمال الصيانة..." />
           </div>
 
-          <div className="fixed bottom-10 left-0 right-0 px-4 z-[50]">
-            <button 
-                type="button"
-                onClick={handleFormSubmit} 
-                className="w-full max-w-lg mx-auto bg-[#003366] text-white py-5 rounded-[2.5rem] font-black text-xl shadow-2xl flex items-center justify-center gap-3 border-4 border-white active:scale-95 transition-all"
-            >
-              {isAdmin ? '💾 حفظ التعديلات والاعتماد' : '📥 رفع تقرير الصيانة للمراجعة'}
-            </button>
+          <div className="fixed bottom-10 left-0 right-0 px-4 z-[50] pointer-events-none">
+             <div className="w-full max-w-lg mx-auto flex gap-2">
+                <button 
+                  type="button"
+                  onClick={handleFormSubmit} 
+                  className="pointer-events-auto flex-grow bg-[#0054A6] text-white py-6 rounded-[2.5rem] font-black text-xl shadow-2xl flex items-center justify-center gap-4 active:scale-95 transition-all border-b-4 border-[#003366]"
+                >
+                  {isAdmin ? '💾 حفظ التعديلات والاعتماد' : '📥 رفع تقرير الصيانة'}
+                </button>
+                <button
+                  type="button"
+                  onClick={onCancel}
+                  className="pointer-events-auto w-24 bg-slate-100 text-slate-500 py-6 rounded-[2.5rem] font-black text-xl shadow-lg flex items-center justify-center gap-4 active:scale-95 transition-all border-b-4 border-slate-200"
+                >
+                  إلغاء
+                </button>
+            </div>
           </div>
         </div>
       ) : (
