@@ -9,20 +9,32 @@ interface ImageSliderProps {
 const ImageSlider: React.FC<ImageSliderProps> = ({ photos }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const goToPrevious = () => {
+    const isFirstSlide = currentIndex === 0;
+    const newIndex = isFirstSlide ? photos.length - 1 : currentIndex - 1;
+    setCurrentIndex(newIndex);
+  };
+
+  const goToNext = () => {
+    const isLastSlide = currentIndex === photos.length - 1;
+    const newIndex = isLastSlide ? 0 : currentIndex + 1;
+    setCurrentIndex(newIndex);
+  };
+
   useEffect(() => {
     if (photos.length === 0) return;
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev === photos.length - 1 ? 0 : prev + 1));
+      goToNext();
     }, 5000);
     return () => clearInterval(interval);
-  }, [photos]);
+  }, [photos, currentIndex]);
 
   if (photos.length === 0) return null;
 
   return (
     <div className="relative w-full h-[300px] sm:h-[450px] rounded-[3rem] overflow-hidden shadow-2xl group">
       {/* Images container */}
-      <div className="relative w-full h-full flex transition-transform duration-700 ease-in-out" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
+      <div className="relative w-full h-full flex transition-transform duration-700 ease-in-out" style={{ transform: `translateX(${currentIndex * 100}%)` }}>
         {photos.map((photo, index) => (
           <div key={photo.public_id} className="min-w-full h-full relative">
             <img 
@@ -44,20 +56,22 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ photos }) => {
 
       {/* Navigation Arrows */}
       <button 
-        onClick={() => setCurrentIndex(prev => prev === 0 ? photos.length - 1 : prev - 1)}
+        onClick={goToNext}
         className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white/40"
+        aria-label="الصورة التالية"
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
         </svg>
       </button>
 
       <button 
-        onClick={() => setCurrentIndex(prev => prev === photos.length - 1 ? 0 : prev + 1)}
+        onClick={goToPrevious}
         className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white/40"
+        aria-label="الصورة السابقة"
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
         </svg>
       </button>
 
@@ -68,6 +82,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ photos }) => {
             key={i} 
             onClick={() => setCurrentIndex(i)}
             className={`h-1.5 rounded-full transition-all ${currentIndex === i ? 'w-8 bg-[#C5A059]' : 'w-2 bg-white/50'}`}
+            aria-label={`الانتقال إلى الصورة ${i + 1}`}
           />
         ))}
       </div>
