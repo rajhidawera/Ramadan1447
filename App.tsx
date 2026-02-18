@@ -7,10 +7,12 @@ import RecordForm from './components/RecordForm.tsx';
 import MaintenanceForm from './components/MaintenanceForm.tsx';
 import MaintenanceDashboard from './components/MaintenanceDashboard.tsx';
 import Dashboard from './components/Dashboard.tsx';
+import WelcomePage from './components/WelcomePage.tsx';
 
 type ViewState = 'dashboard' | 'list' | 'form' | 'maintenance' | 'maintenance_list';
 
 const App: React.FC = () => {
+  const [isPlatformEntered, setIsPlatformEntered] = useState(false);
   const [view, setView] = useState<ViewState>('dashboard');
   const [records, setRecords] = useState<MosqueRecord[]>([]);
   const [maintenanceRecords, setMaintenanceRecords] = useState<MaintenanceRecord[]>([]);
@@ -43,8 +45,10 @@ const App: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (isPlatformEntered) {
+      fetchData();
+    }
+  }, [isPlatformEntered]);
 
   const handleAdminLogin = () => {
     if (adminPassInput === 'admin123') {
@@ -81,8 +85,17 @@ const App: React.FC = () => {
       setLoading(false);
     }
   };
+  
+  const handleCancel = () => {
+    setView('dashboard');
+    setEditingRecord(null);
+  };
 
   const approvedRecords = records.filter(r => r.الاعتماد === 'معتمد');
+
+  if (!isPlatformEntered) {
+    return <WelcomePage onEnter={() => setIsPlatformEntered(true)} />;
+  }
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] pb-24 font-['Tajawal'] text-right" dir="rtl">
@@ -144,7 +157,7 @@ const App: React.FC = () => {
         </div>
       )}
 
-      {loading && (
+      {loading && isPlatformEntered && (
         <div className="fixed inset-0 bg-white/60 backdrop-blur-xl z-[90] flex flex-col items-center justify-center text-center">
           <div className="relative bg-white p-6 rounded-[2rem] shadow-2xl border border-slate-100 mb-4">
              <div className="w-16 h-16 border-4 border-[#C5A059] border-t-[#0054A6] rounded-full animate-spin"></div>
@@ -180,7 +193,7 @@ const App: React.FC = () => {
             days={daysList} 
             isAdmin={isAdmin}
             onSave={handleSave} 
-            onCancel={() => setView('dashboard')} 
+            onCancel={handleCancel} 
           />
         )}
         {view === 'maintenance' && (
@@ -189,7 +202,8 @@ const App: React.FC = () => {
             mosques={mosquesList} 
             days={daysList} 
             isAdmin={isAdmin}
-            onSave={handleSave} 
+            onSave={handleSave}
+            onCancel={handleCancel}
           />
         )}
         {view === 'maintenance_list' && (
